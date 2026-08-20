@@ -372,13 +372,13 @@ YÊU CẦU QUAN TRỌNG VỀ ĐÁP ÁN:
         const parsed = JSON.parse(cleanJson);
         return res.json({ status: 'success', answers: parsed, usedKeyIndex: i });
       } else {
-        // Gemini API with multi-model fallback: gemini-2.0-flash -> gemini-2.5-flash -> gemini-1.5-flash-latest -> gemini-1.5-flash -> gemini-pro
+        // Gemini API with multi-model fallback (current active Gemini models)
         const geminiModels = [
           'gemini-2.0-flash',
-          'gemini-2.5-flash',
-          'gemini-1.5-flash-latest',
-          'gemini-1.5-flash',
-          'gemini-pro'
+          'gemini-1.5-flash-8b',
+          'gemini-1.5-pro',
+          'gemini-2.0-flash-exp',
+          'gemini-2.0-flash-lite-preview-02-05'
         ];
 
         let parsed = null;
