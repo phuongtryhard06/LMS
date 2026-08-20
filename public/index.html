@@ -467,6 +467,20 @@
       color: #5b21b6 !important;
     }
 
+    .btn-ai-single.is-failed {
+      background: #fef2f2;
+      color: #dc2626 !important;
+      border: 1.5px solid #fca5a5;
+      box-shadow: 0 1px 2px rgba(220, 38, 38, 0.05);
+      font-weight: 700;
+    }
+
+    .btn-ai-single.is-failed:hover {
+      background: #fee2e2;
+      color: #b91c1c !important;
+      border-color: #f87171;
+    }
+
     .test-body {
       padding: 1.25rem;
       border-top: 1px solid var(--border);
@@ -1750,14 +1764,21 @@
 
         const backupNote = res.usedKeyIndex > 0 ? ' (Đã tự động chuyển sang Key 2 dự phòng)' : '';
         showToast(`AI đã giải xong toàn bộ câu hỏi cho Test ID: ${testId}!${backupNote} Đáp án đúng đã được bôi đỏ.`, 'success', 'Hoàn Tất Giải Đề');
-      } catch (err) {
-        showToast(err.message || 'Không thể giải đề bằng AI', 'error', 'Lỗi Giải Đề AI');
-      } finally {
+
         if (btn) {
           btn.disabled = false;
+          btn.classList.remove('is-failed');
           btn.classList.add('is-solved');
           btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> AI Đã Giải';
         }
+      } catch (err) {
+        if (btn) {
+          btn.disabled = false;
+          btn.classList.remove('is-solved');
+          btn.classList.add('is-failed');
+          btn.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> AI Giải Lỗi';
+        }
+        showToast(err.message || 'Không thể giải đề bằng AI', 'error', 'Lỗi Giải Đề AI');
       }
     }
 
