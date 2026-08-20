@@ -167,10 +167,18 @@ app.post('/api/process-headers', async (req, res) => {
     }
   }
 
+  const authKey = Object.keys(headers).find(k => k.toLowerCase() === 'authorization');
+  if (!authKey || !headers[authKey]) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'Thiếu dòng "authorization" (Token đăng nhập). Vui lòng copy đầy đủ toàn bộ Request Headers từ F12 Network trên trang LMS!'
+    });
+  }
+
   // If studentId wasn't in URL, fetch user profile
   const profileRes = await callLmsApi('user-profile/', headers);
   if (profileRes.error) {
-    return res.status(500).json({ status: 'error', message: `Lỗi trích xuất thông tin sinh viên: ${profileRes.error}` });
+    return res.status(500).json({ status: 'error', message: `Lỗi kết nối LMS: ${profileRes.error}` });
   }
   
   if (profileRes.data && profileRes.data.length > 0) {
