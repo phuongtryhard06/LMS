@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tài Liệu API LMS ICTU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-card: #161b22;
+      --border: #30363d;
+      --text-main: #f0f6fc;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --yellow: #f1e05a;
+      --card-radius: 10px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: var(--bg); color: var(--text-main); line-height: 1.6; }
+    .container { max-width: 900px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+    .back-btn { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; font-weight: 700; margin-bottom: 2rem; font-size: 0.9rem; }
+    .hero-title { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .hero-desc { color: var(--text-muted); font-size: 1rem; margin-bottom: 2rem; }
+    .endpoint-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 1.5rem; margin-bottom: 1.5rem; }
+    .endpoint-header { display: flex; align-items: center; gap: 10px; margin-bottom: 0.75rem; }
+    .badge-post { background: var(--green); color: #000; font-weight: 800; font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 4px; }
+    .endpoint-path { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: #fff; font-weight: 700; }
+    .code-box { background: #090d13; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: #79c0ff; overflow-x: auto; margin-top: 0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ</a>
+    <h1 class="hero-title">Tài Liệu Tích Hợp API LMS ICTU</h1>
+    <p class="hero-desc">Hệ thống proxy kết nối tự động với backend LMS <code>apps.ictu.edu.vn:9087</code>.</p>
+
+    <div class="endpoint-card">
+      <div class="endpoint-header">
+        <span class="badge-post">POST</span>
+        <span class="endpoint-path">/api/process-headers</span>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Phân tích chuỗi Request Headers copy từ F12 DevTools để lấy student_id, class_id và tokens.</p>
+      <div class="code-box">curl -X POST http://localhost:3000/api/process-headers \
+  -H "Content-Type: application/json" \
+  -d '{"headersText": "..."}'</div>
+    </div>
+
+    <div class="endpoint-card">
+      <div class="endpoint-header">
+        <span class="badge-post">POST</span>
+        <span class="endpoint-path">/api/classes</span>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Lấy danh sách các lớp học phần và năm học / kỳ học của sinh viên.</p>
+    </div>
+
+    <div class="endpoint-card">
+      <div class="endpoint-header">
+        <span class="badge-post">POST</span>
+        <span class="endpoint-path">/api/class-details</span>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Lấy tên lớp và thông tin chi tiết giảng viên, học phần.</p>
+    </div>
+
+    <div class="endpoint-card">
+      <div class="endpoint-header">
+        <span class="badge-post">POST</span>
+        <span class="endpoint-path">/api/course-plan</span>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Lấy kế hoạch tuần học theo môn học.</p>
+    </div>
+
+    <div class="endpoint-card">
+      <div class="endpoint-header">
+        <span class="badge-post">POST</span>
+        <span class="endpoint-path">/api/test-results</span>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Lấy danh sách bài kiểm tra và điểm tổng kết theo tuần học.</p>
+    </div>
+
+    <div class="endpoint-card">
+      <div class="endpoint-header">
+        <span class="badge-post">POST</span>
+        <span class="endpoint-path">/api/test-details</span>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Bóc tách toàn bộ câu hỏi, danh sách đáp án lựa chọn và chi tiết bài kiểm tra.</p>
+    </div>
+  </div>
+</body>
+</html>

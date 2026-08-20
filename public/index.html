@@ -1,0 +1,2357 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ Thống Tra Cứu Điểm & Đáp Án LMS ICTU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-light: #eff6ff;
+      --purple: #7c3aed;
+      --purple-hover: #6d28d9;
+      --purple-light: #f5f3ff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --success-light: #ecfdf5;
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+      --radius: 12px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    /* Top Navbar */
+    .navbar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      background: var(--primary-light);
+      color: var(--primary);
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 1.1rem;
+    }
+
+    /* Layout */
+    .main-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* Section Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.2s ease;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .card-title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .step-badge {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
+      color: #ffffff;
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.925rem;
+      box-shadow: 0 4px 10px -1px rgba(37, 99, 235, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      flex-shrink: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Form Inputs */
+    .textarea-wrapper {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    .textarea-box {
+      width: 100%;
+      min-height: 140px;
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: #1e293b;
+      outline: none;
+      resize: vertical;
+      transition: all 0.15s ease;
+      line-height: 1.45;
+    }
+
+    .textarea-box:focus {
+      background: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* AI Card & Inputs */
+    .ai-config-card {
+      background: #faf5ff;
+      border: 1.5px dashed #c084fc;
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .ai-config-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--purple);
+      margin-bottom: 0.75rem;
+    }
+
+    .ai-config-grid {
+      display: grid;
+      grid-template-columns: 180px 1fr auto;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .ai-config-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .input-text {
+      background: #ffffff;
+      border: 1.5px solid #d8b4fe;
+      border-radius: 8px;
+      padding: 0.65rem 0.85rem;
+      font-size: 0.85rem;
+      color: var(--text-main);
+      outline: none;
+      width: 100%;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .input-text:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+    }
+
+    .btn-ai {
+      background: var(--purple);
+      color: #ffffff;
+      border: none;
+      padding: 0.6rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-ai:hover:not(:disabled) {
+      background: var(--purple-hover);
+    }
+
+    .btn-ai:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Dropdowns */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .field-label {
+      font-size: 0.825rem;
+      font-weight: 700;
+      color: #334155;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+
+    .select-input {
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0.7rem 0.9rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-main);
+      outline: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .select-input:focus {
+      background: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .select-input:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: #f1f5f9;
+    }
+
+    /* Alert Message */
+    .alert-banner {
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .alert-banner.error {
+      background: var(--danger-light);
+      border: 1px solid #fecaca;
+      color: #991b1b;
+    }
+
+    .alert-banner.success {
+      background: var(--success-light);
+      border: 1px solid #a7f3d0;
+      color: #065f46;
+    }
+
+    /* Global / Batch Download Button */
+    .btn-download-all {
+      background: #059669;
+      color: #ffffff;
+      border: none;
+      padding: 0.6rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s ease;
+    }
+
+    .btn-download-all:hover {
+      background: #047857;
+    }
+
+    /* Tests Accordion */
+    .test-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .test-box {
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      background: #ffffff;
+      overflow: hidden;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .test-box:hover {
+      border-color: #cbd5e1;
+    }
+
+    .test-summary {
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      background: #ffffff;
+    }
+
+    .test-summary:hover {
+      background: #f8fafc;
+    }
+
+    .score-tag {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #059669;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .test-summary-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .test-id-tag {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .btn-download-single {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-download-single:hover {
+      background: #059669;
+      color: #ffffff;
+    }
+
+    .btn-ai-single {
+      background: #f5f3ff;
+      color: var(--purple);
+      border: 1px solid #d8b4fe;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-ai-single:hover {
+      background: var(--purple);
+      color: #ffffff;
+    }
+
+    .btn-ai-single.is-solved {
+      background: #ede9fe;
+      color: #6d28d9 !important;
+      border: 1.5px solid #c4b5fd;
+      box-shadow: 0 1px 2px rgba(109, 40, 217, 0.05);
+      font-weight: 700;
+    }
+
+    .btn-ai-single.is-solved:hover {
+      background: #ddd6fe;
+      color: #5b21b6 !important;
+    }
+
+    .test-body {
+      padding: 1.25rem;
+      border-top: 1px solid var(--border);
+      background: #f8fafc;
+      display: none;
+    }
+
+    .test-body.open {
+      display: block;
+    }
+
+    /* Toolbar inside test */
+    .action-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .view-toggle-group {
+      display: inline-flex;
+      background: #f1f5f9;
+      border: 1.5px solid var(--border);
+      padding: 4px;
+      border-radius: 10px;
+      gap: 4px;
+    }
+
+    .toggle-tab {
+      border: none;
+      background: transparent;
+      padding: 0.45rem 1rem;
+      border-radius: 7px;
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toggle-tab:hover:not(.active) {
+      color: var(--text-main);
+      background: rgba(226, 232, 240, 0.6);
+    }
+
+    .toggle-tab.active {
+      background: var(--primary);
+      color: #ffffff !important;
+      font-weight: 700;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+    }
+
+    /* Questions UI */
+    .questions-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .q-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .q-badge {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      margin-bottom: 0.65rem;
+      text-transform: uppercase;
+    }
+
+    .q-text {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 0.6rem 0.85rem;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.875rem;
+      color: #334155;
+    }
+
+    .option-key {
+      background: #e2e8f0;
+      color: #1e293b;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .sub-questions-box {
+      margin-top: 1rem;
+      padding-left: 1rem;
+      border-left: 3px solid var(--primary);
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .json-code-box {
+      background: #0f172a;
+      color: #38bdf8;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      line-height: 1.45;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 2.25rem 2.5rem;
+      max-width: 680px;
+      width: 100%;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border);
+      animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 0.6rem;
+    }
+    .modal-desc {
+      font-size: 0.925rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.55;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 1.75rem;
+    }
+
+    /* Toast Notification System */
+    #toast-container {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 100000;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .custom-toast {
+      pointer-events: auto;
+      min-width: 340px;
+      max-width: 440px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 14px 18px;
+      box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      animation: toastSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .custom-toast.toast-success {
+      border-left: 4px solid #10b981;
+    }
+
+    .custom-toast.toast-error {
+      border-left: 4px solid #ef4444;
+    }
+
+    .custom-toast.toast-warning {
+      border-left: 4px solid #f59e0b;
+    }
+
+    .custom-toast.toast-info {
+      border-left: 4px solid var(--purple);
+    }
+
+    .toast-icon {
+      font-size: 1.35rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .toast-success .toast-icon { color: #10b981; }
+    .toast-error .toast-icon { color: #ef4444; }
+    .toast-warning .toast-icon { color: #f59e0b; }
+    .toast-info .toast-icon { color: var(--purple); }
+
+    .toast-content {
+      flex: 1;
+    }
+
+    .toast-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+
+    .toast-msg {
+      font-size: 0.85rem;
+      color: #475569;
+      line-height: 1.45;
+    }
+
+    .toast-close {
+      background: transparent;
+      border: none;
+      font-size: 1.25rem;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 0 4px;
+      line-height: 1;
+      transition: color 0.15s ease;
+    }
+
+    .toast-close:hover {
+      color: #1e293b;
+    }
+
+    @keyframes toastSlideIn {
+      from {
+        opacity: 0;
+        transform: translateX(50px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+    }
+
+    .toast-fadeout {
+      opacity: 0;
+      transform: translateY(-12px) scale(0.95);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+      background: #ffffff;
+      margin-top: auto;
+    }
+
+    /* High-End Modern Futuristic Glass Preloader */
+    #app-preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background: radial-gradient(circle at 50% 35%, #1e1b4b 0%, #0f172a 65%, #020617 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .preloader-glow-orb {
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.35) 0%, rgba(37, 99, 235, 0.2) 50%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(50px);
+      pointer-events: none;
+      animation: orbPulse 3.5s infinite alternate ease-in-out;
+    }
+
+    @keyframes orbPulse {
+      0% { transform: scale(0.85); opacity: 0.5; }
+      100% { transform: scale(1.15); opacity: 0.9; }
+    }
+
+    .preloader-card {
+      position: relative;
+      background: rgba(30, 41, 59, 0.65);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+      border-radius: 24px;
+      padding: 2.75rem 2.5rem;
+      width: 420px;
+      max-width: 90vw;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .preloader-icon-box {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.25));
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #c084fc;
+      animation: floatIcon 3s ease-in-out infinite;
+    }
+
+    @keyframes floatIcon {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .preloader-percent-text {
+      font-size: 2.25rem;
+      font-weight: 900;
+      font-family: 'JetBrains Mono', monospace;
+      background: linear-gradient(135deg, #60a5fa 0%, #c084fc 50%, #f472b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-top: 0.15rem;
+    }
+
+    .preloader-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .preloader-subtitle {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #10b981;
+      animation: blink 1.2s infinite ease-in-out;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .preloader-progress-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 0.35rem;
+      padding: 1px;
+    }
+
+    .preloader-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+      border-radius: 999px;
+      box-shadow: 0 0 12px rgba(139, 92, 246, 0.8);
+      transition: width 0.1s ease-out;
+    }
+
+    .preloader-hidden {
+      opacity: 0;
+      transform: scale(0.96);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- App Preloader Screen -->
+  <div id="app-preloader">
+    <div class="preloader-glow-orb"></div>
+    <div class="preloader-card">
+      <div class="preloader-icon-box">
+        <i class="fa-solid fa-graduation-cap"></i>
+      </div>
+      <div class="preloader-percent-text" id="preloader-percent">0%</div>
+      <div class="preloader-subtitle">
+        <span class="status-dot"></span>
+        <span id="preloader-sub">Đang tối ưu hóa giao diện ứng dụng...</span>
+      </div>
+      <div class="preloader-progress-track">
+        <div class="preloader-progress-fill" id="preloader-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      let progress = 0;
+      const percentEl = document.getElementById('preloader-percent');
+      const fillEl = document.getElementById('preloader-fill');
+      const subEl = document.getElementById('preloader-sub');
+      const preloader = document.getElementById('app-preloader');
+
+      const messages = [
+        "Đang tối ưu hóa giao diện ứng dụng...",
+        "Đang nạp cấu hình hệ thống...",
+        "Khởi tạo hoàn tất!"
+      ];
+
+      const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 16) + 10;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          if (percentEl) percentEl.innerText = '100%';
+          if (fillEl) fillEl.style.width = '100%';
+          if (subEl) subEl.innerText = messages[2];
+
+          setTimeout(() => {
+            if (preloader) {
+              preloader.classList.add('preloader-hidden');
+              setTimeout(() => preloader.remove(), 400);
+            }
+          }, 250);
+        } else {
+          if (percentEl) percentEl.innerText = progress + '%';
+          if (fillEl) fillEl.style.width = progress + '%';
+          if (progress > 45 && subEl) subEl.innerText = messages[1];
+        }
+      }, 65);
+    })();
+  </script>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="nav-content">
+      <a href="/" class="brand-logo">
+        <div class="brand-icon">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <span>LMS ICTU TOOL</span>
+      </a>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button type="button" class="btn-ai-single" onclick="openAiModal()" style="padding: 0.45rem 0.9rem; font-size: 0.85rem;">
+          <i class="fa-solid fa-gear"></i> Cài Đặt AI Key
+        </button>
+        <button type="button" class="btn-guide" onclick="openGuideModal()" style="background: #eff6ff; color: var(--primary); border: 1px solid #bfdbfe; padding: 0.45rem 0.9rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">
+          <i class="fa-solid fa-book-open-reader"></i> Lưu Ý
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Guide & Motivation Modal -->
+  <div id="guide-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 520px; padding: 1.75rem 2rem;">
+      <div class="modal-title">
+        <i class="fa-solid fa-lightbulb" style="color: #f59e0b;"></i>
+        <span>Lưu Ý Học Tập</span>
+      </div>
+      
+      <div class="guide-body" style="display: flex; flex-direction: column; gap: 0.9rem; margin-top: 0.75rem;">
+        
+        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 0.9rem 1.15rem;">
+          <div style="font-weight: 700; color: #166534; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+            <i class="fa-solid fa-bullseye"></i> 1. Mục Đích Của Hệ Thống
+          </div>
+          <ul style="margin-left: 1.25rem; display: flex; flex-direction: column; gap: 0.35rem; color: #15803d; font-size: 0.825rem; line-height: 1.45;">
+            <li><b>Hệ thống hóa ngân hàng đề thi</b>: Tổng hợp câu hỏi theo tuần để bạn dễ dàng in ấn hoặc lưu trữ dưới dạng file Word ôn tập.</li>
+            <li><b>Hỗ trợ tự học & củng cố kiến thức</b>: Tích hợp AI thông minh giúp giải thích và định hướng đáp án chính xác cho các câu hỏi khó.</li>
+            <li><b>Tối ưu thời gian</b>: Tiết kiệm thời gian ghi chép đề bài, giúp tập trung vào việc tư duy và nắm vững kiến thức cốt lõi.</li>
+          </ul>
+        </div>
+
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 0.9rem 1.15rem;">
+          <div style="font-weight: 700; color: #1d4ed8; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+            <i class="fa-solid fa-graduation-cap"></i> 2. Lời Nhắn Gửi & Động Lực Học Tập
+          </div>
+          <ul style="margin-left: 1.25rem; display: flex; flex-direction: column; gap: 0.35rem; color: #1e40af; font-size: 0.825rem; line-height: 1.45;">
+            <li><b>Tự giác & chủ động</b>: Hãy luôn đọc bài giảng và tự làm bài trước, sau đó mới dùng công cụ để đối chiếu và củng cố kiến thức.</li>
+            <li><b>Học hiểu bản chất</b>: Hiểu rõ lý do vì sao đáp án đúng để xây dựng tư duy logic vững vàng cho các kỳ thi học phần.</li>
+            <li><b>Rèn luyện kiên trì</b>: Dành 30–60 phút mỗi tuần ôn tập đều đặn sẽ giúp bạn đạt kết quả cao mà không bị áp lực thi cử.</li>
+          </ul>
+        </div>
+
+        <div style="text-align: center; font-weight: 600; color: #7c3aed; font-size: 0.85rem; padding: 0.15rem 0;">
+          ✨ <i>"Kiến thức hôm nay là tương lai vững chắc ngày mai!"</i> ✨
+        </div>
+
+      </div>
+
+      <div class="modal-actions" style="margin-top: 1rem;">
+        <button type="button" class="btn-primary" onclick="closeGuideModal()" style="padding: 0.65rem 1.25rem; width: 100%; justify-content: center; font-size: 0.9rem;">
+          <i class="fa-solid fa-circle-check"></i> Đã Hiểu
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Modal Popup -->
+  <div id="ai-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 580px;">
+      <div class="modal-title">
+        <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--purple);"></i>
+        <span>Cấu Hình API Key AI</span>
+      </div>
+      <p class="modal-desc">
+        Nhập API Key để AI tự động phân tích và giải đề trắc nghiệm.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 0.9rem;">
+        <div>
+          <label class="field-label" style="margin-bottom: 4px; display: block;">Nền tảng AI</label>
+          <select id="modal-ai-provider" class="select-input" style="width: 100%;" onchange="updateAiHelperLink()">
+            <option value="gemini">Google Gemini</option>
+            <option value="openai">OpenAI</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="field-label" style="margin-bottom: 4px; display: block;">
+            <i class="fa-solid fa-key" style="color: var(--primary);"></i> API Key 1
+          </label>
+          <input type="text" id="modal-ai-key" class="input-text" placeholder="Dán API Key 1..." />
+        </div>
+
+        <div>
+          <label class="field-label" style="margin-bottom: 4px; display: block;">
+            <i class="fa-solid fa-key" style="color: var(--purple);"></i> API Key 2
+          </label>
+          <input type="text" id="modal-ai-key-backup" class="input-text" placeholder="Dán API Key 2..." />
+          <div id="modal-ai-help-link" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">
+            👉 Chưa có key? Lấy miễn phí tại: <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--primary); font-weight: 600; text-decoration: underline;">Google AI Studio (Miễn phí)</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions" style="margin-top: 1.25rem;">
+        <button type="button" class="select-input" onclick="closeAiModal()" style="border: 1px solid var(--border); padding: 0.6rem 1.2rem;">Đóng</button>
+        <button type="button" class="btn-ai" onclick="saveModalApiKey()">Lưu & Kích Hoạt</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-container">
+
+    <!-- Step 1: Input Headers -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="step-badge">1</div>
+          <h2 class="card-title">Dán Headers</h2>
+        </div>
+      </div>
+
+      <form id="header-form">
+        <div class="textarea-wrapper">
+          <textarea id="headers-input" class="textarea-box" placeholder="Dán Request Headers ..." required spellcheck="false"></textarea>
+        </div>
+        <button type="submit" id="btn-process-headers" class="btn-primary">
+          <i class="fa-solid fa-bolt"></i> Phân Tích
+        </button>
+      </form>
+      <div id="header-alert" class="alert-banner"></div>
+    </section>
+
+    <!-- Step 2: Select Class & Week -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="step-badge">2</div>
+          <h2 class="card-title">Chọn Môn Học & Tuần Học</h2>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label class="field-label" for="year-select">Năm Học</label>
+          <select id="year-select" class="select-input" disabled>
+            <option value="">--- Chọn Năm Học ---</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label class="field-label" for="semester-select">Học Kỳ</label>
+          <select id="semester-select" class="select-input" disabled>
+            <option value="">--- Chọn Học Kỳ ---</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label class="field-label" for="class-select">Môn Học (Lớp Học Phần)</label>
+          <select id="class-select" class="select-input" disabled>
+            <option value="">--- Chọn Môn Học ---</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label class="field-label" for="week-select">Tuần Học</label>
+          <select id="week-select" class="select-input" disabled>
+            <option value="">--- Chọn Tuần Học ---</option>
+          </select>
+        </div>
+      </div>
+      <div id="class-alert" class="alert-banner"></div>
+    </section>
+
+    <!-- Step 3: Test Results & Details -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="step-badge">3</div>
+          <h2 class="card-title" id="results-title">Kết Quả Kiểm Tra & Đề Bài</h2>
+        </div>
+        <div id="batch-download-wrapper" style="display: none; display: flex; gap: 8px;">
+          <button class="btn-ai" id="btn-ai-solve-all" onclick="aiSolveAllTests()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> AI Giải Toàn Bộ Đề
+          </button>
+          <button class="btn-download-all" onclick="downloadAllTests()">
+            <i class="fa-solid fa-file-word"></i> Tải Toàn Bộ Đề (Word)
+          </button>
+        </div>
+      </div>
+
+      <div id="tests-list" class="test-list">
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Vui lòng hoàn thành 2 bước trên để xem danh sách bài kiểm tra.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 LMS ICTU Tool — Hệ thống hỗ trợ ôn tập & AI giải đề</p>
+  </footer>
+
+  <script>
+    // State management
+    const state = {
+      headers: {},
+      studentId: null,
+      classId: null,
+      className: '',
+      classes: [],
+      classDetails: [],
+      coursePlan: [],
+      currentClass: null,
+      currentWeek: null,
+      testResults: []
+    };
+
+    let pendingAiTestId = null;
+
+    function showToast(message, type = 'success', title = '') {
+      let toastContainer = document.getElementById('toast-container');
+      if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toast-container';
+        document.body.appendChild(toastContainer);
+      }
+
+      const toast = document.createElement('div');
+      toast.className = `custom-toast toast-${type}`;
+      
+      const iconMap = {
+        success: 'fa-solid fa-circle-check',
+        error: 'fa-solid fa-circle-xmark',
+        info: 'fa-solid fa-circle-info',
+        warning: 'fa-solid fa-triangle-exclamation'
+      };
+
+      const defaultTitle = {
+        success: 'Hoàn Tất',
+        error: 'Đã Xảy Ra Lỗi',
+        info: 'Thông Báo',
+        warning: 'Chú Ý'
+      };
+
+      toast.innerHTML = `
+        <div class="toast-icon"><i class="${iconMap[type] || iconMap.info}"></i></div>
+        <div class="toast-content">
+          <div class="toast-title">${title || defaultTitle[type] || 'Thông Báo'}</div>
+          <div class="toast-msg">${message}</div>
+        </div>
+        <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
+      `;
+
+      toastContainer.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add('toast-fadeout');
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    function updateAiHelperLink() {
+      const provider = document.getElementById('modal-ai-provider').value;
+      const linkEl = document.getElementById('modal-ai-help-link');
+      const inputEl = document.getElementById('modal-ai-key');
+      const inputBackupEl = document.getElementById('modal-ai-key-backup');
+
+      // Load provider-specific saved keys
+      const savedKey1 = localStorage.getItem(provider + '_api_key_1') || localStorage.getItem(provider + '_api_key') || (localStorage.getItem('ai_provider') === provider ? localStorage.getItem('ai_api_key') : '') || '';
+      const savedKey2 = localStorage.getItem(provider + '_api_key_2') || '';
+      
+      inputEl.value = savedKey1;
+      if (inputBackupEl) inputBackupEl.value = savedKey2;
+
+      if (provider === 'gemini') {
+        linkEl.innerHTML = '👉 Chưa có key? Lấy miễn phí tại: <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--primary); font-weight: 600; text-decoration: underline;">Google AI Studio (Miễn phí)</a>';
+        inputEl.placeholder = 'Dán Google Gemini API Key 1 (AIzaSy...)';
+        if (inputBackupEl) inputBackupEl.placeholder = 'Dán Google Gemini API Key 2 (AIzaSy...)';
+      } else {
+        linkEl.innerHTML = '👉 Lấy OpenAI API Key tại: <a href="https://platform.openai.com/api-keys" target="_blank" style="color: var(--purple); font-weight: 600; text-decoration: underline;">OpenAI Platform (API Keys)</a>';
+        inputEl.placeholder = 'Dán OpenAI API Key 1 (sk-...)';
+        if (inputBackupEl) inputBackupEl.placeholder = 'Dán OpenAI API Key 2 (sk-...)';
+      }
+    }
+
+    function openAiModal(testId = null) {
+      pendingAiTestId = testId;
+      const modal = document.getElementById('ai-modal');
+      const savedProvider = localStorage.getItem('ai_provider') || 'gemini';
+      document.getElementById('modal-ai-provider').value = savedProvider;
+      updateAiHelperLink();
+      modal.style.display = 'flex';
+      document.getElementById('modal-ai-key').focus();
+    }
+
+    function openGuideModal() {
+      document.getElementById('guide-modal').style.display = 'flex';
+    }
+
+    function closeGuideModal() {
+      document.getElementById('guide-modal').style.display = 'none';
+    }
+
+    function closeAiModal() {
+      document.getElementById('ai-modal').style.display = 'none';
+      pendingAiTestId = null;
+    }
+
+    function saveModalApiKey() {
+      const key1 = document.getElementById('modal-ai-key').value.trim();
+      const key2 = document.getElementById('modal-ai-key-backup') ? document.getElementById('modal-ai-key-backup').value.trim() : '';
+      const provider = document.getElementById('modal-ai-provider').value;
+      
+      if (!key1 && !key2) {
+        showToast('Vui lòng nhập ít nhất 1 API Key.', 'warning');
+        return;
+      }
+      
+      localStorage.setItem('ai_provider', provider);
+      localStorage.setItem(provider + '_api_key_1', key1);
+      localStorage.setItem(provider + '_api_key_2', key2);
+      localStorage.setItem(provider + '_api_key', key1 || key2);
+      localStorage.setItem('ai_api_key', key1 || key2);
+      closeAiModal();
+      
+      const keyCount = (key1 ? 1 : 0) + (key2 ? 1 : 0);
+      showToast(`Đã lưu ${keyCount} API Key (${provider === 'gemini' ? 'Gemini' : 'OpenAI'}) kèm cơ chế dự phòng tự động!`, 'success', 'Cài Đặt AI');
+
+      if (pendingAiTestId) {
+        const idToRun = pendingAiTestId;
+        pendingAiTestId = null;
+        triggerAiSolve(idToRun);
+      }
+    }
+
+    function cleanHtml(html) {
+      if (!html) return '';
+      let text = html
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&amp;/g, '&')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/<!--[\s\S]*?-->/g, '')
+        .replace(/<o:p>\s*<\/o:p>/g, '')
+        .replace(/<o:p>/g, '')
+        .replace(/<\/o:p>/g, '')
+        .replace(/<p[^>]*>/g, '')
+        .replace(/<\/p>/g, ' ')
+        .replace(/<span[^>]*>/g, '')
+        .replace(/<\/span>/g, '')
+        .replace(/<strong[^>]*>/g, '')
+        .replace(/<\/strong>/g, '')
+        .replace(/<br\s*\/?>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+      return text;
+    }
+
+    const alertTimers = {};
+
+    function showAlert(id, msg, type = 'error', autoHideSeconds = 10) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.className = `alert-banner ${type}`;
+      el.innerText = msg;
+      el.style.display = 'block';
+
+      if (alertTimers[id]) {
+        clearTimeout(alertTimers[id]);
+      }
+
+      if (autoHideSeconds > 0) {
+        alertTimers[id] = setTimeout(() => {
+          hideAlert(id);
+        }, autoHideSeconds * 1000);
+      }
+    }
+
+    function hideAlert(id) {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+      if (alertTimers[id]) {
+        clearTimeout(alertTimers[id]);
+        delete alertTimers[id];
+      }
+    }
+
+    async function apiCall(endpoint, payload) {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (!res.ok || data.status === 'error') {
+        throw new Error(data.message || 'Lỗi kết nối máy chủ');
+      }
+      return data;
+    }
+
+    // Step 1: Submit Headers
+    document.getElementById('header-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const rawText = document.getElementById('headers-input').value.trim();
+      const btn = document.getElementById('btn-process-headers');
+      hideAlert('header-alert');
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang xử lý...';
+
+      try {
+        const res = await apiCall('/api/process-headers', { headersText: rawText });
+        state.headers = res.headers;
+        state.studentId = res.studentId;
+        state.classId = res.classId;
+
+        showAlert('header-alert', '✅ Đã kết nối thành công!', 'success');
+        await loadClasses();
+      } catch (err) {
+        showAlert('header-alert', err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-bolt"></i> Phân Tích';
+      }
+    });
+
+    // Step 2: Load classes
+    async function loadClasses() {
+      try {
+        const res = await apiCall('/api/classes', {
+          headers: state.headers,
+          studentId: state.studentId
+        });
+        state.classes = res.data || [];
+        populateYearSelect();
+      } catch (err) {
+        showAlert('class-alert', 'Không thể tải danh sách môn học: ' + err.message, 'error');
+      }
+    }
+
+    function populateYearSelect() {
+      const yearSel = document.getElementById('year-select');
+      const years = Array.from(new Set(state.classes.map(c => c.namhoc))).filter(Boolean);
+      yearSel.innerHTML = '<option value="">--- Chọn Năm Học ---</option>';
+      years.forEach(y => {
+        yearSel.innerHTML += `<option value="${y}">${y}</option>`;
+      });
+      yearSel.disabled = years.length === 0;
+
+      if (state.classId) {
+        const match = state.classes.find(c => c.class_id === state.classId);
+        if (match) {
+          yearSel.value = match.namhoc;
+          populateSemesterSelect(match.namhoc);
+          document.getElementById('semester-select').value = match.hocky;
+          populateClassSelect(match.namhoc, match.hocky);
+          document.getElementById('class-select').value = match.class_id;
+          onClassChanged(match.class_id);
+        }
+      }
+    }
+
+    document.getElementById('year-select').addEventListener('change', (e) => {
+      const val = e.target.value;
+      populateSemesterSelect(val);
+    });
+
+    function populateSemesterSelect(namhoc) {
+      const semSel = document.getElementById('semester-select');
+      const sems = Array.from(new Set(state.classes.filter(c => c.namhoc === namhoc).map(c => c.hocky))).sort();
+      semSel.innerHTML = '<option value="">--- Chọn Học Kỳ ---</option>';
+      sems.forEach(s => {
+        semSel.innerHTML += `<option value="${s}">Học kỳ ${s}</option>`;
+      });
+      semSel.disabled = sems.length === 0;
+      document.getElementById('class-select').innerHTML = '<option value="">--- Chọn Môn Học ---</option>';
+      document.getElementById('class-select').disabled = true;
+    }
+
+    document.getElementById('semester-select').addEventListener('change', (e) => {
+      const namhoc = document.getElementById('year-select').value;
+      const hocky = parseInt(e.target.value);
+      populateClassSelect(namhoc, hocky);
+    });
+
+    async function populateClassSelect(namhoc, hocky) {
+      const classSel = document.getElementById('class-select');
+      const filtered = state.classes.filter(c => c.namhoc === namhoc && c.hocky === hocky);
+      classSel.innerHTML = '<option value="">Đang nạp tên môn học...</option>';
+      classSel.disabled = true;
+
+      try {
+        const detailsPromises = filtered.map(c => 
+          apiCall('/api/class-details', { headers: state.headers, classId: c.class_id })
+        );
+        const detailsRes = await Promise.all(detailsPromises);
+        state.classDetails = detailsRes.map(r => r.data);
+
+        classSel.innerHTML = '<option value="">--- Chọn Môn Học ---</option>';
+        filtered.forEach(c => {
+          const detail = state.classDetails.find(d => d && d.id === c.class_id);
+          const name = detail ? detail.name : `Môn học ID: ${c.class_id}`;
+          classSel.innerHTML += `<option value="${c.class_id}">${name}</option>`;
+        });
+        classSel.disabled = false;
+      } catch (err) {
+        classSel.innerHTML = '<option value="">Lỗi nạp môn học</option>';
+      }
+    }
+
+    document.getElementById('class-select').addEventListener('change', (e) => {
+      const classId = parseInt(e.target.value);
+      const sel = e.target;
+      state.className = sel.options[sel.selectedIndex].text;
+      if (classId) onClassChanged(classId);
+    });
+
+    async function onClassChanged(classId) {
+      state.currentClass = classId;
+      const weekSel = document.getElementById('week-select');
+      weekSel.innerHTML = '<option value="">Đang tải tuần học...</option>';
+      weekSel.disabled = true;
+
+      try {
+        const res = await apiCall('/api/course-plan', { headers: state.headers, classId });
+        state.coursePlan = res.data || [];
+        const weeks = Array.from(new Set(state.coursePlan.map(p => p.week))).sort((a, b) => a - b);
+        
+        weekSel.innerHTML = '<option value="">--- Chọn Tuần Học ---</option>';
+        weeks.forEach(w => {
+          weekSel.innerHTML += `<option value="${w}">Tuần ${w}</option>`;
+        });
+        weekSel.disabled = weeks.length === 0;
+      } catch (err) {
+        weekSel.innerHTML = '<option value="">Lỗi tải kế hoạch tuần</option>';
+      }
+    }
+
+    document.getElementById('week-select').addEventListener('change', async (e) => {
+      const week = parseInt(e.target.value);
+      if (!week) return;
+      state.currentWeek = week;
+      await loadTestResults(week);
+    });
+
+    // Step 3: Load Test Results
+    async function loadTestResults(week) {
+      const container = document.getElementById('tests-list');
+      const batchDownloadBtn = document.getElementById('batch-download-wrapper');
+      container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;"><i class="fa-solid fa-spinner fa-spin"></i> Đang tải kết quả bài kiểm tra...</p>';
+      batchDownloadBtn.style.display = 'none';
+
+      try {
+        const res = await apiCall('/api/test-results', {
+          headers: state.headers,
+          classId: state.currentClass,
+          week: week
+        });
+        const tests = res.data || [];
+        state.testResults = tests;
+
+        if (tests.length === 0) {
+          container.innerHTML = `<p style="color: var(--text-muted); font-size: 0.9rem;">Chưa có bài kiểm tra nào trong Tuần ${week}.</p>`;
+          return;
+        }
+
+        batchDownloadBtn.style.display = 'flex';
+        container.innerHTML = '';
+        tests.forEach(test => {
+          const score = (test.tong_diem / 10).toFixed(1);
+          const isSolved = testCache[test.id] && testCache[test.id].aiAnswers;
+          const el = document.createElement('div');
+          el.className = 'test-box';
+          el.innerHTML = `
+            <div class="test-summary" onclick="toggleTestDetails(${test.id})">
+              <div class="score-tag">
+                <i class="fa-solid fa-circle-check"></i> Điểm: ${score}
+              </div>
+              <div class="test-summary-right">
+                <button class="btn-ai-single ${isSolved ? 'is-solved' : ''}" id="btn-ai-${test.id}" onclick="event.stopPropagation(); triggerAiSolve(${test.id});">
+                  <i class="fa-solid ${isSolved ? 'fa-circle-check' : 'fa-wand-magic-sparkles'}"></i> ${isSolved ? 'AI Đã Giải' : 'AI Giải Đề'}
+                </button>
+                <button class="btn-download-single" onclick="event.stopPropagation(); downloadSingleWord(${test.id});">
+                  <i class="fa-solid fa-file-word"></i> Tải Word
+                </button>
+                <div class="test-id-tag">Test ID: ${test.id} &nbsp;<i class="fa-solid fa-chevron-down"></i></div>
+              </div>
+            </div>
+            <div class="test-body" id="details-${test.id}">
+              <div style="text-align: center; padding: 1rem; color: var(--text-muted); font-size: 0.9rem;">
+                <i class="fa-solid fa-spinner fa-spin"></i> Đang trích xuất câu hỏi & đáp án...
+              </div>
+            </div>
+          `;
+          container.appendChild(el);
+        });
+      } catch (err) {
+        container.innerHTML = `<p style="color: var(--danger); font-size: 0.9rem;">Lỗi: ${err.message}</p>`;
+      }
+    }
+
+    const testCache = {};
+    async function fetchTestDetails(testId) {
+      if (!testCache[testId]) {
+        const res = await apiCall('/api/test-details', { headers: state.headers, testId });
+        testCache[testId] = (res.data && res.data[0]) || null;
+      }
+      return testCache[testId];
+    }
+
+    async function toggleTestDetails(testId) {
+      const detailsEl = document.getElementById(`details-${testId}`);
+      const isOpen = detailsEl.classList.contains('open');
+
+      if (isOpen) {
+        detailsEl.classList.remove('open');
+        return;
+      }
+
+      detailsEl.classList.add('open');
+
+      try {
+        const data = await fetchTestDetails(testId);
+        renderTestContent(testId, data);
+      } catch (err) {
+        detailsEl.innerHTML = `<p style="color: var(--danger); font-size: 0.9rem;">Lỗi tải bài thi: ${err.message}</p>`;
+      }
+    }
+
+    function normalizeText(str) {
+      if (!str) return '';
+      return cleanHtml(str)
+        .toLowerCase()
+        .replace(/[.,/#!$%^&*;:{}=\-_`~()?"'’“”]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function getQuestionFingerprint(q) {
+      const normQ = normalizeText(q.question_direction || '');
+      if (!q.answer_option || q.answer_option.length === 0) {
+        return normQ;
+      }
+      const sortedOpts = q.answer_option
+        .map(opt => normalizeText(opt.value || ''))
+        .sort()
+        .join('|');
+      return `${normQ}###${sortedOpts}`;
+    }
+
+    function isOptionCorrect(opt, q, testData) {
+      if (!opt) return false;
+      if (opt._forceCorrect === true) return true;
+
+      // 1. Check AI solved answers (supports single or array of correct IDs)
+      if (testData && testData.aiAnswers) {
+        const aiChosen = testData.aiAnswers[q.id] ?? testData.aiAnswers[String(q.id)];
+        if (aiChosen !== undefined && aiChosen !== null) {
+          if (Array.isArray(aiChosen)) {
+            if (aiChosen.map(String).includes(String(opt.id)) || aiChosen.map(String).includes(String(opt.value))) {
+              return true;
+            }
+          } else if (typeof aiChosen === 'string' && aiChosen.includes(',')) {
+            const parts = aiChosen.split(',').map(s => s.trim());
+            if (parts.includes(String(opt.id)) || parts.includes(String(opt.value))) {
+              return true;
+            }
+          } else {
+            if (String(aiChosen) === String(opt.id) || String(aiChosen) === String(opt.value)) {
+              return true;
+            }
+          }
+        }
+      }
+
+      // 2. Direct flags on option
+      if (opt.is_correct === 1 || opt.is_correct === true || opt.is_correct === '1') return true;
+      if (opt.correct === 1 || opt.correct === true || opt.correct === '1') return true;
+      if (opt.is_true === 1 || opt.is_true === true || opt.is_true === '1') return true;
+      if (opt.status === 1 || opt.status === true || opt.status === '1') return true;
+      
+      // 3. Flags on question
+      if (q) {
+        if (q.correct_answer !== undefined && (String(q.correct_answer) === String(opt.id) || String(q.correct_answer) === String(opt.value))) return true;
+        if (q.answer !== undefined && (String(q.answer) === String(opt.id) || String(q.answer) === String(opt.value))) return true;
+        if (Array.isArray(q.correct_answers) && (q.correct_answers.map(String).includes(String(opt.id)) || q.correct_answers.map(String).includes(String(opt.value)))) return true;
+        if (Array.isArray(q.answers) && (q.answers.map(String).includes(String(opt.id)) || q.answers.map(String).includes(String(opt.value)))) return true;
+      }
+
+      // 4. Test submitted parameters content
+      if (testData && testData.params) {
+        const content = testData.params.content || testData.params;
+        if (content && typeof content === 'object') {
+          const ans = content[q.id] || content[String(q.id)];
+          if (ans !== undefined && ans !== null) {
+            if (typeof ans === 'object' && !Array.isArray(ans)) {
+              const val = ans.answer_id ?? ans.id ?? ans.value ?? ans.ans;
+              if (val !== undefined && (String(val) === String(opt.id) || String(val) === String(opt.value))) return true;
+            } else if (Array.isArray(ans)) {
+              if (ans.map(String).includes(String(opt.id)) || ans.map(String).includes(String(opt.value))) return true;
+            } else {
+              if (String(ans) === String(opt.id) || String(ans) === String(opt.value)) return true;
+            }
+          }
+        }
+      }
+
+      return false;
+    }
+
+    // AI Solve Trigger
+    async function triggerAiSolve(testId) {
+      const provider = localStorage.getItem('ai_provider') || 'gemini';
+      const key1 = localStorage.getItem(provider + '_api_key_1') || localStorage.getItem(provider + '_api_key') || localStorage.getItem('ai_api_key') || '';
+      const key2 = localStorage.getItem(provider + '_api_key_2') || '';
+      const apiKeys = [key1, key2].filter(Boolean);
+
+      if (apiKeys.length === 0) {
+        openAiModal(testId);
+        return;
+      }
+
+      const btn = document.getElementById(`btn-ai-${testId}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> AI đang giải...';
+      }
+
+      try {
+        const data = await fetchTestDetails(testId);
+        if (!data || !data.test) throw new Error('Không có dữ liệu câu hỏi');
+
+        // Extract clean questions payload
+        const formattedQuestions = [];
+        data.test.forEach((q, idx) => {
+          if (q.answer_option && q.answer_option.length > 0) {
+            const isMultiple = (q.number_answer_correct && q.number_answer_correct > 1) || q.question_type === 'checkbox' || /chọn\s+\d+\s+đáp\s+án/i.test(q.question_direction || '');
+            formattedQuestions.push({
+              id: q.id,
+              question_number: idx + 1,
+              question: cleanHtml(q.question_direction || ''),
+              number_answer_correct: q.number_answer_correct || (isMultiple ? 2 : 1),
+              question_type: q.question_type || 'radio',
+              options: q.answer_option.map((opt, oIdx) => ({
+                id: opt.id,
+                label: String.fromCharCode(65 + oIdx),
+                value: cleanHtml(opt.value)
+              }))
+            });
+          }
+        });
+
+        const res = await apiCall('/api/ai-solve-test', {
+          apiKey: key1 || key2,
+          backupApiKey: key2,
+          apiKeys,
+          provider,
+          questions: formattedQuestions
+        });
+
+        data.aiAnswers = res.answers;
+        testCache[testId] = data;
+
+        // Update content cache and re-render only if currently open
+        const detailsEl = document.getElementById(`details-${testId}`);
+        if (detailsEl && detailsEl.classList.contains('open')) {
+          renderTestContent(testId, data);
+        }
+
+        const backupNote = res.usedKeyIndex > 0 ? ' (Đã tự động chuyển sang Key 2 dự phòng)' : '';
+        showToast(`AI đã giải xong toàn bộ câu hỏi cho Test ID: ${testId}!${backupNote} Đáp án đúng đã được bôi đỏ.`, 'success', 'Hoàn Tất Giải Đề');
+      } catch (err) {
+        showToast(err.message || 'Không thể giải đề bằng AI', 'error', 'Lỗi Giải Đề AI');
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.classList.add('is-solved');
+          btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> AI Đã Giải';
+        }
+      }
+    }
+
+    async function aiSolveAllTests() {
+      const provider = localStorage.getItem('ai_provider') || 'gemini';
+      const key1 = localStorage.getItem(provider + '_api_key_1') || localStorage.getItem(provider + '_api_key') || localStorage.getItem('ai_api_key') || '';
+      const key2 = localStorage.getItem(provider + '_api_key_2') || '';
+      const apiKeys = [key1, key2].filter(Boolean);
+
+      if (apiKeys.length === 0) {
+        openAiModal();
+        return;
+      }
+
+      if (!state.testResults || state.testResults.length === 0) return;
+
+      const btn = document.getElementById('btn-ai-solve-all');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> AI đang giải toàn bộ...';
+
+      for (const t of state.testResults) {
+        await triggerAiSolve(t.id);
+      }
+
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> AI Giải Toàn Bộ Đề';
+      showToast('Đã hoàn tất giải tất cả các đề kiểm tra trong tuần!', 'success', 'Hoàn Tất Toàn Bộ');
+    }
+
+    function isDragDropMatching(p, sub) {
+      if (!p) return false;
+      const pType = (p.question_type || '').toLowerCase();
+      const pDir = (p.question_direction || '').toLowerCase();
+      if (pType === 'drag_drop' || pType === 'grouping') return true;
+      if (/kéo\s*thả|ghép\s*nối|khớp\s*với|nối\s*các/i.test(pDir)) return true;
+      if (p.answer_option && p.answer_option.length > 0 && sub && sub.length > 0) {
+        const hasBlankInSub = sub.some(sq => /_{2,}|\[\s*_{1,}\s*\]/.test(sq.question_direction || ''));
+        if (hasBlankInSub) return true;
+      }
+      return false;
+    }
+
+    function formatSubQuestionDirection(sqDir, sIdx, sq, testData) {
+      let text = cleanHtml(sqDir || '');
+      const leadingNumMatch = text.match(/^\s*(\d+)\s*[\.\:\-\)]\s*/);
+      let subNum = sIdx + 1;
+      if (leadingNumMatch) {
+        subNum = leadingNumMatch[1];
+        text = text.replace(/^\s*\d+\s*[\.\:\-\)]\s*/, '');
+      }
+
+      if (sq && sq.answer_option && testData) {
+        const corrOpt = sq.answer_option.find(o => isOptionCorrect(o, sq, testData));
+        if (corrOpt && corrOpt.id && !isNaN(corrOpt.id)) {
+          subNum = corrOpt.id;
+        }
+      }
+
+      const redBlank = `___<font color="red"><b>${subNum}</b></font>___`;
+      if (/_{2,}|\[\s*_{1,}\s*\]|\[\s*\.\.\.\s*\]|\.{3,}/.test(text)) {
+        text = text.replace(/_{2,}|\[\s*_{1,}\s*\]|\[\s*\.\.\.\s*\]|\.{3,}/g, redBlank);
+      } else {
+        text = text + ' ' + redBlank;
+      }
+      return text;
+    }
+
+    function formatSubQuestionDirectionWeb(sqDir, sIdx, sq, testData) {
+      let text = cleanHtml(sqDir || '');
+      const leadingNumMatch = text.match(/^\s*(\d+)\s*[\.\:\-\)]\s*/);
+      let subNum = sIdx + 1;
+      if (leadingNumMatch) {
+        subNum = leadingNumMatch[1];
+        text = text.replace(/^\s*\d+\s*[\.\:\-\)]\s*/, '');
+      }
+
+      if (sq && sq.answer_option && testData) {
+        const corrOpt = sq.answer_option.find(o => isOptionCorrect(o, sq, testData));
+        if (corrOpt && corrOpt.id && !isNaN(corrOpt.id)) {
+          subNum = corrOpt.id;
+        }
+      }
+
+      const redBlank = `___<span style="color: #dc2626; font-weight: 800;">${subNum}</span>___`;
+      if (/_{2,}|\[\s*_{1,}\s*\]|\[\s*\.\.\.\s*\]|\.{3,}/.test(text)) {
+        text = text.replace(/_{2,}|\[\s*_{1,}\s*\]|\[\s*\.\.\.\s*\]|\.{3,}/g, redBlank);
+      } else {
+        text = text + ' ' + redBlank;
+      }
+      return text;
+    }
+
+    function renderTestContent(testId, data) {
+      const detailsEl = document.getElementById(`details-${testId}`);
+      if (!data || !data.test) {
+        detailsEl.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">Không tìm thấy dữ liệu câu hỏi.</p>';
+        return;
+      }
+
+      let parents = data.test.filter(q => q.group_id === 0);
+      let children = data.test.filter(q => q.group_id !== 0);
+      let grouped = parents.map(p => ({ parent: p, children: [] }));
+      
+      children.forEach(c => {
+        let parentItem = grouped.find(g => g.parent.id === c.group_id);
+        if (parentItem) parentItem.children.push(c);
+        else grouped.push({ parent: c, children: [] });
+      });
+
+      if (data.questions) {
+        grouped.sort((a, b) => {
+          let listA = [a.parent.id, ...a.children.map(c => c.id)].map(id => data.questions.indexOf(id)).filter(idx => idx !== -1);
+          let listB = [b.parent.id, ...b.children.map(c => c.id)].map(id => data.questions.indexOf(id)).filter(idx => idx !== -1);
+          let minA = listA.length > 0 ? Math.min(...listA) : 999999;
+          let minB = listB.length > 0 ? Math.min(...listB) : 999999;
+          return minA - minB;
+        });
+      }
+
+      let html = `
+        <div class="action-header">
+          <div class="view-toggle-group">
+            <button id="tab-reader-${testId}" class="toggle-tab active" onclick="switchView(${testId}, 'reader')">
+              <i class="fa-solid fa-file-lines"></i> Dạng Đề Bài
+            </button>
+            <button id="tab-json-${testId}" class="toggle-tab" onclick="switchView(${testId}, 'json')">
+              <i class="fa-solid fa-code"></i> Dạng JSON
+            </button>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-ai" onclick="triggerAiSolve(${testId})">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> ${data.aiAnswers ? 'AI Giải Lại' : 'AI Tự Động Giải'}
+            </button>
+            <button class="btn-download-all" onclick="downloadSingleWord(${testId})">
+              <i class="fa-solid fa-file-word"></i> Xuất File Word (Bôi đỏ đáp án)
+            </button>
+          </div>
+        </div>
+
+        <div id="view-reader-${testId}" class="questions-container">
+      `;
+
+      grouped.forEach((item, idx) => {
+        const p = item.parent;
+        const sub = item.children;
+        const pDir = cleanHtml(p.question_direction || '');
+        const isMultiple = (p.number_answer_correct && p.number_answer_correct > 1) || p.question_type === 'checkbox' || /chọn\s+\d+\s+đáp\s+án/i.test(pDir);
+        const correctCount = p.number_answer_correct || (isMultiple ? 2 : 1);
+        const isMatching = isDragDropMatching(p, sub);
+
+        html += `
+          <div class="q-card">
+            <span class="q-badge">Câu ${idx + 1}</span>
+            <div class="q-text">${pDir}</div>
+            ${isMultiple ? `<div class="q-note" style="background: #fef08a; color: #854d0e; padding: 4px 10px; border-radius: 4px; font-weight: 700; font-size: 0.85rem; margin-bottom: 10px; display: inline-block;"><i class="fa-solid fa-circle-info"></i> Hãy chọn ${correctCount} đáp án đúng nhất !</div>` : ''}
+        `;
+
+        if (p.answer_option && p.answer_option.length > 0) {
+          html += '<div class="options-grid">';
+          p.answer_option.forEach((opt, optIdx) => {
+            const isCorrect = isOptionCorrect(opt, p, data);
+            const badge = (p.question_type === 'drag_drop' || p.question_type === 'grouping' || isMatching) ? opt.id : String.fromCharCode(65 + optIdx);
+            html += `
+              <div class="option-item ${isCorrect || isMatching ? 'is-correct' : ''}" style="${(isCorrect || isMatching) ? 'background: #fef2f2; border-color: #f87171; color: #dc2626; font-weight: 700;' : ''}">
+                <span class="option-key" style="${(isCorrect || isMatching) ? 'background: #dc2626; color: #ffffff;' : ''}">${badge}</span>
+                <span>${cleanHtml(opt.value)}</span>
+                ${(isCorrect && !isMatching) ? '<span style="color: #dc2626; font-weight: 700; margin-left: auto; font-size: 0.8rem;">(Đáp án đúng)</span>' : ''}
+              </div>
+            `;
+          });
+          html += '</div>';
+        }
+
+        if (sub.length > 0) {
+          html += '<div class="sub-questions-box" style="margin-top: 10px;">';
+          sub.forEach((sq, sIdx) => {
+            const charBadge = String.fromCharCode(97 + sIdx);
+            if (isMatching) {
+              const formattedSubWeb = formatSubQuestionDirectionWeb(sq.question_direction || '', sIdx, sq, data);
+              html += `
+                <div style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 0.5rem; color: #1e293b;">
+                  <span style="color: var(--primary); font-weight: 800;">${charBadge}.</span> ${formattedSubWeb}
+                </div>
+              `;
+            } else {
+              const sqDir = cleanHtml(sq.question_direction || '');
+              const isSubMultiple = (sq.number_answer_correct && sq.number_answer_correct > 1) || sq.question_type === 'checkbox' || /chọn\s+\d+\s+đáp\s+án/i.test(sqDir);
+              const subCorrectCount = sq.number_answer_correct || (isSubMultiple ? 2 : 1);
+              html += `
+                <div style="margin-bottom: 12px;">
+                  <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.4rem; color: #1e293b;">
+                    <span style="color: var(--primary); font-weight: 700;">${charBadge}.</span> ${sqDir}
+                  </div>
+                  ${isSubMultiple ? `<div style="background: #fef08a; color: #854d0e; padding: 4px 8px; border-radius: 4px; font-weight: 700; font-size: 0.8rem; margin-bottom: 8px; display: inline-block;">Hãy chọn ${subCorrectCount} đáp án đúng nhất !</div>` : ''}
+              `;
+              if (sq.answer_option && sq.answer_option.length > 0) {
+                html += '<div class="options-grid">';
+                sq.answer_option.forEach((sOpt, sOptIdx) => {
+                  const isSubCorrect = isOptionCorrect(sOpt, sq, data);
+                  const sBadge = String.fromCharCode(65 + sOptIdx);
+                  html += `
+                    <div class="option-item ${isSubCorrect ? 'is-correct' : ''}" style="${isSubCorrect ? 'background: #fef2f2; border-color: #f87171; color: #dc2626; font-weight: 700;' : ''}">
+                      <span class="option-key" style="${isSubCorrect ? 'background: #dc2626; color: #ffffff;' : ''}">${sBadge}</span>
+                      <span>${cleanHtml(sOpt.value)}</span>
+                      ${isSubCorrect ? '<span style="color: #dc2626; font-weight: 700; margin-left: auto; font-size: 0.8rem;">(Đáp án đúng)</span>' : ''}
+                    </div>
+                  `;
+                });
+                html += '</div>';
+              }
+              html += '</div>';
+            }
+          });
+          html += '</div>';
+        }
+
+        html += '</div>';
+      });
+
+      html += `
+        </div>
+        <div id="view-json-${testId}" class="json-code-box" style="display: none;">${JSON.stringify(data, null, 2)}</div>
+      `;
+
+      detailsEl.innerHTML = html;
+    }
+
+    function switchView(testId, view) {
+      const readerEl = document.getElementById(`view-reader-${testId}`);
+      const jsonEl = document.getElementById(`view-json-${testId}`);
+      const tabReader = document.getElementById(`tab-reader-${testId}`);
+      const tabJson = document.getElementById(`tab-json-${testId}`);
+
+      if (view === 'reader') {
+        readerEl.style.display = 'flex';
+        jsonEl.style.display = 'none';
+        if (tabReader) tabReader.classList.add('active');
+        if (tabJson) tabJson.classList.remove('active');
+      } else {
+        readerEl.style.display = 'none';
+        jsonEl.style.display = 'block';
+        if (tabReader) tabReader.classList.remove('active');
+        if (tabJson) tabJson.classList.add('active');
+      }
+    }
+
+    function buildWordHtmlForTest(testData, testId) {
+      if (!testData || !testData.test) return '';
+
+      let parents = testData.test.filter(q => q.group_id === 0);
+      let children = testData.test.filter(q => q.group_id !== 0);
+      let grouped = parents.map(p => ({ parent: p, children: [] }));
+      
+      children.forEach(c => {
+        let parentItem = grouped.find(g => g.parent.id === c.group_id);
+        if (parentItem) parentItem.children.push(c);
+        else grouped.push({ parent: c, children: [] });
+      });
+
+      let contentHtml = '';
+      grouped.forEach((item, idx) => {
+        const p = item.parent;
+        const sub = item.children;
+        const pDir = cleanHtml(p.question_direction || '');
+        const isMultiple = (p.number_answer_correct && p.number_answer_correct > 1) || p.question_type === 'checkbox' || /chọn\s+\d+\s+đáp\s+án/i.test(pDir);
+        const correctCount = p.number_answer_correct || (isMultiple ? 2 : 1);
+        const isMatching = isDragDropMatching(p, sub);
+
+        contentHtml += `<div class="question" style="font-weight: bold; margin-top: 16px; margin-bottom: 4px;">Câu ${idx + 1}: ${pDir}</div>`;
+        if (isMultiple) {
+          contentHtml += `<div style="margin-top: 2px; margin-bottom: 6px;"><mark style="background-color: #ffff00; font-weight: bold;">Hãy chọn ${correctCount} đáp án đúng nhất !</mark></div>`;
+        }
+        
+        if (p.answer_option && p.answer_option.length > 0) {
+          contentHtml += '<div class="options" style="margin-top: 4px; margin-bottom: 8px;">';
+          p.answer_option.forEach((opt, optIdx) => {
+            const isCorrect = isOptionCorrect(opt, p, testData);
+            const badge = (p.question_type === 'drag_drop' || p.question_type === 'grouping' || isMatching) ? opt.id : String.fromCharCode(65 + optIdx);
+            
+            if (isMatching) {
+              contentHtml += `<div class="option" style="margin-bottom: 4px; margin-left: 20px; color: #000000;"><font color="red"><b>${badge}.</b></font> ${cleanHtml(opt.value)}</div>`;
+            } else if (isCorrect) {
+              contentHtml += `<div class="option" style="margin-bottom: 4px; margin-left: 20px; color: red; font-weight: bold;"><font color="red"><b>${badge}.</b> ${cleanHtml(opt.value)}</font></div>`;
+            } else {
+              contentHtml += `<div class="option" style="margin-bottom: 4px; margin-left: 20px; color: #000000;"><font color="#000000"><b>${badge}.</b> ${cleanHtml(opt.value)}</font></div>`;
+            }
+          });
+          contentHtml += '</div>';
+        }
+
+        if (sub.length > 0) {
+          contentHtml += '<div style="margin-left: 20px; margin-top: 6px; margin-bottom: 12px;">';
+          sub.forEach((sq, sIdx) => {
+            const charBadge = String.fromCharCode(97 + sIdx);
+            if (isMatching) {
+              const formattedSubText = formatSubQuestionDirection(sq.question_direction || '', sIdx, sq, testData);
+              contentHtml += `<div class="sub-question" style="margin-top: 5px; margin-bottom: 5px;"><b>${charBadge}.</b> ${formattedSubText}</div>`;
+            } else {
+              const sqDir = cleanHtml(sq.question_direction || '');
+              const isSubMultiple = (sq.number_answer_correct && sq.number_answer_correct > 1) || sq.question_type === 'checkbox' || /chọn\s+\d+\s+đáp\s+án/i.test(sqDir);
+              const subCorrectCount = sq.number_answer_correct || (isSubMultiple ? 2 : 1);
+
+              contentHtml += `<div class="sub-question" style="margin-top: 5px; margin-bottom: 5px; font-weight: bold;"><b>${charBadge}.</b> ${sqDir}</div>`;
+              if (isSubMultiple) {
+                contentHtml += `<div style="margin-top: 2px; margin-bottom: 4px;"><mark style="background-color: #ffff00; font-weight: bold;">Hãy chọn ${subCorrectCount} đáp án đúng nhất !</mark></div>`;
+              }
+              if (sq.answer_option && sq.answer_option.length > 0) {
+                contentHtml += '<div class="options" style="margin-top: 4px; margin-bottom: 8px;">';
+                sq.answer_option.forEach((sOpt, sOptIdx) => {
+                  const isSubCorrect = isOptionCorrect(sOpt, sq, testData);
+                  const sBadge = String.fromCharCode(65 + sOptIdx);
+                  if (isSubCorrect) {
+                    contentHtml += `<div class="option" style="margin-bottom: 3px; margin-left: 20px; color: red; font-weight: bold;"><font color="red"><b>${sBadge}.</b> ${cleanHtml(sOpt.value)}</font></div>`;
+                  } else {
+                    contentHtml += `<div class="option" style="margin-bottom: 3px; margin-left: 20px; color: #000000;"><font color="#000000"><b>${sBadge}.</b> ${cleanHtml(sOpt.value)}</font></div>`;
+                  }
+                });
+                contentHtml += '</div>';
+              }
+            }
+          });
+          contentHtml += '</div>';
+        }
+      });
+
+      return contentHtml;
+    }
+
+    async function downloadSingleWord(testId) {
+      let data = await fetchTestDetails(testId);
+      if (!data) return;
+
+      const innerContent = buildWordHtmlForTest(data, testId);
+      const fullDoc = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head>
+          <meta charset="utf-8">
+          <title>Đề kiểm tra</title>
+          <!--[if gte mso 9]>
+          <xml>
+          <w:WordDocument>
+          <w:View>Print</w:View>
+          <w:Zoom>100</w:Zoom>
+          </w:WordDocument>
+          </xml>
+          <![endif]-->
+          <style>
+            body { font-family: 'Times New Roman', Times, serif; font-size: 12pt; line-height: 1.5; }
+            .title { font-size: 16pt; font-weight: bold; text-align: center; margin-bottom: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="title">KẾT QUẢ BÀI KIỂM TRA - TUẦN ${state.currentWeek || ''}</div>
+          <div style="text-align: center; margin-bottom: 20px;">Lớp: ${state.className || 'Chưa rõ'} (Mã lớp: ${state.currentClass || ''})</div>
+          <hr/>
+          <br/>
+          ${innerContent}
+        </body>
+        </html>
+      `;
+
+      const blob = new Blob(['\ufeff' + fullDoc], { type: 'application/msword;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Ket_Qua_Kiem_Tra_Tuan_${state.currentWeek || ''}_Lop_${state.currentClass || ''}_ID_${testId}.doc`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    async function downloadAllTests() {
+      if (!state.testResults || state.testResults.length === 0) return;
+
+      const btn = document.querySelector('.btn-download-all');
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang lọc câu trùng...';
+      }
+
+      try {
+        // 1. Fetch details for all tests
+        const allTestsData = [];
+        for (const t of state.testResults) {
+          const d = await fetchTestDetails(t.id);
+          if (d && d.test) allTestsData.push(d);
+        }
+
+        if (allTestsData.length === 0) {
+          showToast('Không có dữ liệu bài kiểm tra nào để xuất.', 'warning');
+          return;
+        }
+
+        // 2. Extract and Deduplicate all questions
+        let rawQuestionCount = 0;
+        const uniqueGrouped = []; // [{ parent, children: [] }]
+        const seenFingerprints = new Map(); // fingerprint -> uniqueGrouped index
+
+        for (const testData of allTestsData) {
+          const parents = testData.test.filter(q => q.group_id === 0);
+          const children = testData.test.filter(q => q.group_id !== 0);
+          
+          // Map of grouped items in this test
+          const currentGrouped = parents.map(p => ({ parent: p, children: [] }));
+          children.forEach(c => {
+            const pItem = currentGrouped.find(g => g.parent.id === c.group_id);
+            if (pItem) pItem.children.push(c);
+            else currentGrouped.push({ parent: c, children: [] });
+          });
+
+          for (const item of currentGrouped) {
+            rawQuestionCount++;
+            const p = item.parent;
+            const sub = item.children;
+            const fp = getQuestionFingerprint(p);
+
+            if (seenFingerprints.has(fp)) {
+              // Duplicate question found! Merge any correct answers into canonical instance
+              const existingItem = uniqueGrouped[seenFingerprints.get(fp)];
+              
+              // Merge parent options correctness
+              if (p.answer_option && existingItem.parent.answer_option) {
+                p.answer_option.forEach(opt => {
+                  const isCorr = isOptionCorrect(opt, p, testData);
+                  if (isCorr) {
+                    const normVal = normalizeText(opt.value);
+                    const matchExistingOpt = existingItem.parent.answer_option.find(o => normalizeText(o.value) === normVal);
+                    if (matchExistingOpt) {
+                      matchExistingOpt._forceCorrect = true;
+                    }
+                  }
+                });
+              }
+
+              // Merge sub-questions correctness
+              sub.forEach(sq => {
+                const subFp = getQuestionFingerprint(sq);
+                const matchExistingSub = existingItem.children.find(c => getQuestionFingerprint(c) === subFp);
+                if (matchExistingSub && sq.answer_option && matchExistingSub.answer_option) {
+                  sq.answer_option.forEach(sOpt => {
+                    const isSubCorr = isOptionCorrect(sOpt, sq, testData);
+                    if (isSubCorr) {
+                      const normSubVal = normalizeText(sOpt.value);
+                      const matchSubOpt = matchExistingSub.answer_option.find(o => normalizeText(o.value) === normSubVal);
+                      if (matchSubOpt) {
+                        matchSubOpt._forceCorrect = true;
+                      }
+                    }
+                  });
+                }
+              });
+            } else {
+              // New unique question! Clone and mark initial correct answers
+              const clonedParent = JSON.parse(JSON.stringify(p));
+              if (clonedParent.answer_option) {
+                clonedParent.answer_option.forEach(opt => {
+                  if (isOptionCorrect(opt, p, testData)) {
+                    opt._forceCorrect = true;
+                  }
+                });
+              }
+
+              const clonedChildren = JSON.parse(JSON.stringify(sub));
+              clonedChildren.forEach(sq => {
+                if (sq.answer_option) {
+                  sq.answer_option.forEach(sOpt => {
+                    if (isOptionCorrect(sOpt, sq, testData)) {
+                      sOpt._forceCorrect = true;
+                    }
+                  });
+                }
+              });
+
+              const newIdx = uniqueGrouped.length;
+              seenFingerprints.set(fp, newIdx);
+              uniqueGrouped.push({
+                parent: clonedParent,
+                children: clonedChildren
+              });
+            }
+          }
+        }
+
+        // 3. Build Word HTML for deduplicated questions
+        let allHtml = '';
+        uniqueGrouped.forEach((item, idx) => {
+          const p = item.parent;
+          const sub = item.children;
+          const pDir = cleanHtml(p.question_direction || '');
+          const isMultiple = (p.number_answer_correct && p.number_answer_correct > 1) || p.question_type === 'checkbox' || /chọn\s+\d+\s+đáp\s+án/i.test(pDir);
+          const correctCount = p.number_answer_correct || (isMultiple ? 2 : 1);
+
+          const isMatching = isDragDropMatching(p, sub);
+
+          allHtml += `<div class="question" style="font-weight: bold; margin-top: 16px; margin-bottom: 4px;">Câu ${idx + 1}: ${pDir}</div>`;
+          if (isMultiple) {
+            allHtml += `<div style="margin-top: 2px; margin-bottom: 6px;"><mark style="background-color: #ffff00; font-weight: bold;">Hãy chọn ${correctCount} đáp án đúng nhất !</mark></div>`;
+          }
+
+          if (p.answer_option && p.answer_option.length > 0) {
+            allHtml += '<div class="options" style="margin-top: 4px; margin-bottom: 8px;">';
+            p.answer_option.forEach((opt, optIdx) => {
+              const isCorrect = opt._forceCorrect === true;
+              const badge = (p.question_type === 'drag_drop' || p.question_type === 'grouping' || isMatching) ? opt.id : String.fromCharCode(65 + optIdx);
+              
+              if (isMatching) {
+                allHtml += `<div class="option" style="margin-bottom: 4px; margin-left: 20px; color: #000000;"><font color="red"><b>${badge}.</b></font> ${cleanHtml(opt.value)}</div>`;
+              } else if (isCorrect) {
+                allHtml += `<div class="option" style="margin-bottom: 4px; margin-left: 20px; color: red; font-weight: bold;"><font color="red"><b>${badge}.</b> ${cleanHtml(opt.value)}</font></div>`;
+              } else {
+                allHtml += `<div class="option" style="margin-bottom: 4px; margin-left: 20px; color: #000000;"><font color="#000000"><b>${badge}.</b> ${cleanHtml(opt.value)}</font></div>`;
+              }
+            });
+            allHtml += '</div>';
+          }
+
+          if (sub.length > 0) {
+            allHtml += '<div style="margin-left: 20px; margin-top: 6px; margin-bottom: 12px;">';
+            sub.forEach((sq, sIdx) => {
+              const charBadge = String.fromCharCode(97 + sIdx);
+              if (isMatching) {
+                const formattedSubText = formatSubQuestionDirection(sq.question_direction || '', sIdx, sq, null);
+                allHtml += `<div class="sub-question" style="margin-top: 5px; margin-bottom: 5px;"><b>${charBadge}.</b> ${formattedSubText}</div>`;
+              } else {
+                const sqDir = cleanHtml(sq.question_direction || '');
+                const isSubMultiple = (sq.number_answer_correct && sq.number_answer_correct > 1) || sq.question_type === 'checkbox' || /chọn\s+\d+\s+đáp\s+án/i.test(sqDir);
+                const subCorrectCount = sq.number_answer_correct || (isSubMultiple ? 2 : 1);
+
+                allHtml += `<div class="sub-question" style="margin-top: 5px; margin-bottom: 5px;"><b>${charBadge}.</b> ${sqDir}</div>`;
+                if (isSubMultiple) {
+                  allHtml += `<div style="margin-top: 2px; margin-bottom: 4px;"><mark style="background-color: #ffff00; font-weight: bold;">Hãy chọn ${subCorrectCount} đáp án đúng nhất !</mark></div>`;
+                }
+                if (sq.answer_option && sq.answer_option.length > 0) {
+                  allHtml += '<div class="options" style="margin-top: 4px; margin-bottom: 8px;">';
+                  sq.answer_option.forEach((sOpt, sOptIdx) => {
+                    const isSubCorrect = sOpt._forceCorrect === true;
+                    const sBadge = String.fromCharCode(65 + sOptIdx);
+                    if (isSubCorrect) {
+                      allHtml += `<div class="option" style="margin-bottom: 3px; margin-left: 20px; color: red; font-weight: bold;"><font color="red"><b>${sBadge}.</b> ${cleanHtml(sOpt.value)}</font></div>`;
+                    } else {
+                      allHtml += `<div class="option" style="margin-bottom: 3px; margin-left: 20px; color: #000000;"><font color="#000000"><b>${sBadge}.</b> ${cleanHtml(sOpt.value)}</font></div>`;
+                    }
+                  });
+                  allHtml += '</div>';
+                }
+              }
+            });
+            allHtml += '</div>';
+          }
+        });
+
+        // 4. Wrap in complete Microsoft Word HTML
+        const fullDoc = `
+          <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+          <head>
+            <meta charset="utf-8">
+            <title>Tổng Hợp Đề Kiểm Tra Không Trùng Lặp - Tuần ${state.currentWeek || ''}</title>
+            <!--[if gte mso 9]>
+            <xml>
+            <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>100</w:Zoom>
+            </w:WordDocument>
+            </xml>
+            <![endif]-->
+            <style>
+              body { font-family: 'Times New Roman', Times, serif; font-size: 12pt; line-height: 1.5; }
+              .title { font-size: 16pt; font-weight: bold; text-align: center; margin-bottom: 10px; }
+              .subtitle { font-size: 12pt; text-align: center; margin-bottom: 20px; color: #333333; }
+            </style>
+          </head>
+          <body>
+            <div class="title">NGÂN HÀNG CÂU HỎI TỔNG HỢP (ĐÃ LỌC TRÙNG) - TUẦN ${state.currentWeek || ''}</div>
+            <div class="subtitle">
+              Môn học: <b>${state.className || 'Chưa rõ'}</b> (Mã lớp: ${state.currentClass || ''})<br/>
+              Tổng số câu hỏi duy nhất: <b>${uniqueGrouped.length} câu</b> (đã loại bỏ ${rawQuestionCount - uniqueGrouped.length} câu trùng lặp)
+            </div>
+            <hr/>
+            <br/>
+            ${allHtml}
+          </body>
+          </html>
+        `;
+
+        const blob = new Blob(['\ufeff' + fullDoc], { type: 'application/msword;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Ngan_Hang_De_Tong_Hop_Tuan_${state.currentWeek || ''}_Lop_${state.currentClass || ''}.doc`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        showToast(`Đã xuất ${uniqueGrouped.length} câu hỏi duy nhất (đã lọc bỏ ${rawQuestionCount - uniqueGrouped.length} câu trùng lặp)!`, 'success', 'Xuất File Thành Công');
+      } catch (err) {
+        showToast('Lỗi khi xuất toàn bộ đề: ' + err.message, 'error', 'Lỗi Xuất File');
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalText || '<i class="fa-solid fa-file-word"></i> Tải Toàn Bộ Đề (Word)';
+        }
+      }
+    }
+  </script>
+</body>
+</html>
