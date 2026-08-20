@@ -1779,7 +1779,11 @@
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> AI đang giải toàn bộ...';
 
       for (const t of state.testResults) {
+        // Skip if already solved to save quota
+        if (testCache[t.id] && testCache[t.id].aiAnswers) continue;
         await triggerAiSolve(t.id);
+        // Small delay between tests to prevent API rate limits
+        await new Promise(r => setTimeout(r, 1200));
       }
 
       btn.disabled = false;
