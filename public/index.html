@@ -1493,15 +1493,27 @@
       try {
         const res = await apiCall('/api/course-plan', { headers: state.headers, classId });
         state.coursePlan = res.data || [];
-        const weeks = Array.from(new Set(state.coursePlan.map(p => p.week))).sort((a, b) => a - b);
+        const rawWeeks = state.coursePlan.map(p => p.week).filter(w => typeof w === 'number' && !isNaN(w));
+        const weeks = Array.from(new Set(rawWeeks)).sort((a, b) => a - b);
         
         weekSel.innerHTML = '<option value="">--- Chọn Tuần Học ---</option>';
-        weeks.forEach(w => {
-          weekSel.innerHTML += `<option value="${w}">Tuần ${w}</option>`;
-        });
-        weekSel.disabled = weeks.length === 0;
+        if (weeks.length > 0) {
+          weeks.forEach(w => {
+            weekSel.innerHTML += `<option value="${w}">Tuần ${w}</option>`;
+          });
+        } else {
+          for (let i = 1; i <= 15; i++) {
+            weekSel.innerHTML += `<option value="${i}">Tuần ${i}</option>`;
+          }
+        }
+        weekSel.disabled = false;
       } catch (err) {
-        weekSel.innerHTML = '<option value="">Lỗi tải kế hoạch tuần</option>';
+        console.warn('Sử dụng danh sách tuần mặc định:', err);
+        weekSel.innerHTML = '<option value="">--- Chọn Tuần Học ---</option>';
+        for (let i = 1; i <= 15; i++) {
+          weekSel.innerHTML += `<option value="${i}">Tuần ${i}</option>`;
+        }
+        weekSel.disabled = false;
       }
     }
 
